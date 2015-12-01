@@ -1,32 +1,36 @@
 #include <iostream>
-#include <stdio.h>
 #include <random>
 #include <genome_info.h>
 #include "bed_randomizer.h"
 #include "bed_parser.h"
 #include <chrono>
-#include "bed_entry.h"
-#include "bed.h"
+
 
 
 using namespace std;
 
-int main() {
-    std::srand(static_cast <unsigned> (time(0)));
+int main(int argc, char **argv) {
+
+    std::string file1(argv[1]);
+    std::string file2(argv[2]);
+
+    std::cout << "File 1: " << file1 << std::endl;
+    std::cout << "File 2: " << file2 << std::endl;
 
 
-    BedParser parser1("../test/test_input/FOXA2_1_nohead.bed", 0);
-    BedParser parser2("../test/test_input/FOXA2_2_nohead.bed", 0);
+    BedParser parser1(file1, 0);
+    BedParser parser2(file2, 0);
     Bed bed1 = parser1.getParsedBed();
     Bed bed2 = parser2.getParsedBed();
     bed1.sort();
     bed2.sort();
     bedIntersect intersect = bed1.intersect(bed2);
+    std::cout << "Length of original intersect is " << intersect.size() << std::endl;
 
 
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-    int n = 1000;
+    int n = 100;
     //std::vector<int>
 
     #pragma omp parallel for
