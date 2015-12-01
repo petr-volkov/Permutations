@@ -4,6 +4,7 @@
 #include <genome_info.h>
 #include "bed_randomizer.h"
 #include "bed_parser.h"
+#include <chrono>
 #include "bed_entry.h"
 #include "bed.h"
 
@@ -12,7 +13,7 @@ using namespace std;
 
 int main() {
     std::srand(static_cast <unsigned> (time(0)));
-    clock_t tStart = clock();
+
 
     BedParser parser1("../test/test_input/FOXA2_1_nohead.bed", 0);
     BedParser parser2("../test/test_input/FOXA2_2_nohead.bed", 0);
@@ -22,17 +23,21 @@ int main() {
     bed2.sort();
     bedIntersect intersect = bed1.intersect(bed2);
 
-    printf("Time taken to intersect 1 file: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
-    tStart = clock();
-    BedRandomizer randomizer;
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-    for(long i = 0; i <= 1000; i++) {
+    int n = 1000;
+    //std::vector<int>
+
+    #pragma omp parallel for
+    for(long i = 0; i < n; i++) {
+        BedRandomizer randomizer;
         Bed newbed;
         randomizer.randomize(bed2, newbed);
     }
-    printf("Time taken to permute 1 bed 100 times: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+
+    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+    std::cout << "Time taken to run 1000 iterations: " << duration / 1000. << " seconds" << std::endl;
     return 0;
 }
