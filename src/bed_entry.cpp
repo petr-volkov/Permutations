@@ -62,6 +62,7 @@ long BedEntry::intersect(BedEntry anotherEntry) {
 
 std::ostream& operator<< (std::ostream &out, BedEntry &entry) {
     out << entry.chr << '\t' << entry.getStart() << '\t' << entry.getEnd();
+    return out;
 }
 
 bool operator<(const BedEntry &first, const BedEntry &second) {
@@ -78,14 +79,6 @@ bool operator==(const BedEntry &first, const BedEntry &second) {
 
 bool operator!=(const BedEntry &first, const BedEntry &second) {
     return !(first == second);
-}
-
-void BedEntry::setStart(long newStart) {
-    start = newStart;
-}
-
-void BedEntry::setEnd(long newEnd) {
-    end = newEnd;
 }
 
 void BedEntry::setChr(std::string newChr) {
