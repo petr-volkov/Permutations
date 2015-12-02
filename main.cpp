@@ -1,9 +1,10 @@
 #include <iostream>
 #include <random>
 #include <genome_info.h>
+#include <chrono>
 #include "bed_randomizer.h"
 #include "bed_parser.h"
-#include <chrono>
+#include "str2int.h"
 
 
 
@@ -13,6 +14,8 @@ int main(int argc, char **argv) {
 
     std::string file1(argv[1]);
     std::string file2(argv[2]);
+    long n;
+    str2int(n, argv[3]);
 
     std::cout << "File 1: " << file1 << std::endl;
     std::cout << "File 2: " << file2 << std::endl;
@@ -27,12 +30,11 @@ int main(int argc, char **argv) {
 
     bed1.sort();
     bed2.sort();
-    bedIntersect intersect = bed1.intersect(bed2);
-    std::cout << "Length of original intersect is " << intersect.size() << std::endl;
+    bedIntersect intersectToTest = bed1.intersect(bed2);
+    std::cout << "Length of original intersect is " << intersectToTest.size() << std::endl;
 
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-    unsigned long n = 1000000;
     unsigned long *result;
     result = new unsigned long [n];
 
@@ -44,12 +46,7 @@ int main(int argc, char **argv) {
         newbed.sort();
         bedIntersect intersect = bed1.intersect(newbed);
 
-        if(i == 0) {
-            newbed.writeBed("test_output.txt");
-            std::cout << "Intersect size is: " << intersect.size() <<  std::endl;
-            newbed.writeIntersect(intersect, "test_output_intersect.txt");
-        }
-        if(intersect.size() <= 0) {
+        if(intersect.size() < 0) {
             std::cout << "Some weird stuff!" << std::endl;
         }
         result[i] = intersect.size();
