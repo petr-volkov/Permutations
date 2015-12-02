@@ -11,7 +11,10 @@ set(SOURCE_FILES main.cpp
         src/bed_entry.cpp include/bed_entry.h
         src/bed.cpp include/bed.h
         src/bed_chromosome.cpp include/bed_chromosome.h
-        src/genome_info.cpp include/genome_info.h src/split.cpp include/split.h src/str2int.cpp include/str2int.h src/bed_randomizer.cpp include/bed_randomizer.h)
+        src/genome_info.cpp include/genome_info.h
+        src/split.cpp include/split.h
+        src/str2int.cpp include/str2int.h
+        src/bed_randomizer.cpp include/bed_randomizer.h)
 
 add_subdirectory(test)
 

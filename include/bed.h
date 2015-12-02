@@ -22,8 +22,9 @@ public:
     long int size() const;
     void sort();
     bedIntersect intersect(Bed &);
-    void printIntersect(bedIntersect &intersect);
+    void writeIntersect(bedIntersect &intersect, std::string outputFilePath);
     void permute();
+    void writeBed(std::string outputFilePath);
 private:
     chromosomeMap chromosomes;
 };

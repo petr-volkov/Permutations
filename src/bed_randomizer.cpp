@@ -30,9 +30,11 @@ void BedRandomizer::randomize(const Bed &bed, Bed &newbed) {
             randomChromosomeName(chrNames, cummsum, newChrName);
             long chrLength = GenomeInfo::chrInfo.at(newChrName); // <---- this thing is very slow, think how to refactor.
             long entryLength = entry.getEnd() - entry.getStart();
-            std::uniform_int_distribution<> chrDistribution(1, chrLength - entryLength);
-            int randomStart = chrDistribution(generator);
-            int randomEnd = randomStart + entryLength;
+
+            std::uniform_int_distribution<long int> chrDistribution(1, chrLength - entryLength);
+
+            long int randomStart = chrDistribution(generator);
+            long int randomEnd = randomStart + entryLength;
             BedEntry newEntry(newChrName, randomStart, randomEnd);
             newbed.add_entry(newEntry);
         }

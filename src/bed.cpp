@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "genome_info.h"
 #include "bed.h"
 #include "bed_chromosome.h"
@@ -49,9 +50,10 @@ bedIntersect Bed::intersect(Bed &secondBed) {
     return res;
 }
 
-void Bed::printIntersect(bedIntersect &intersect) {
+void Bed::writeIntersect(bedIntersect &intersect, std::string outputFilePath) {
+    std::ofstream outputFile(outputFilePath, std::ios::out);
     for(auto &tuple : intersect) {
-        std::cout << std::get<0>(tuple) << '\t' <<std::get<1>(tuple) << std::endl;
+        outputFile << std::get<0>(tuple) << '\t' <<std::get<1>(tuple) << std::endl;
     }
 }
 
@@ -75,5 +77,14 @@ void Bed::permute() {
         chromosomes.at(newChr).changeChromosome(oldChr);
 
         std::swap(chromosomes.at(oldChr), chromosomes.at(newChr));
+    }
+}
+
+void Bed::writeBed(std::string outputFilePath) {
+    std::ofstream outputFile(outputFilePath, std::ios::out);
+    for (auto &chr : getChromosomes()) {
+        for (auto entry : chr.second.getEntries()) {
+            outputFile << entry << std::endl;
+        }
     }
 }
