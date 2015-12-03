@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <random>
 #include <genome_info.h>
 #include <chrono>
@@ -6,20 +7,18 @@
 #include "bed_parser.h"
 #include "str2int.h"
 
-
-
 using namespace std;
 
 int main(int argc, char **argv) {
-
     std::string file1(argv[1]);
     std::string file2(argv[2]);
+    std::string outputFilePath(argv[3]);
     long n;
-    str2int(n, argv[3]);
+    str2int(n, argv[4]);
 
     std::cout << "File 1: " << file1 << std::endl;
     std::cout << "File 2: " << file2 << std::endl;
-    
+
     BedParser parser1(file1, 0);
     BedParser parser2(file2, 0);
     Bed bed1 = parser1.getParsedBed();
@@ -56,9 +55,13 @@ int main(int argc, char **argv) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
     std::cout << "Time taken to run 1000 iterations: " << duration / 1000. << " seconds" << std::endl;
 
+    std::ofstream outputFile;
+    outputFile.open(outputFilePath);
+
     for(int i = 0; i < n; i++) {
-        std::cout << result[i] << std::endl;
+        outputFile << result[i] << std::endl;
     }
+    outputFile.close();
     delete[] result;
     return 0;
 }
