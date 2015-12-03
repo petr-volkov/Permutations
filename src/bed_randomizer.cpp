@@ -27,9 +27,15 @@ void BedRandomizer::randomize(const Bed &bed, Bed &newbed) {
     for(const auto &chr : bed.getChromosomes()) {
         for(const auto &entry : chr.second.getEntries()) {
             std::string newChrName;
-            randomChromosomeName(chrNames, cummsum, newChrName);
-            long chrLength = GenomeInfo::chrInfo.at(newChrName); // <---- this thing is very slow, think how to refactor.
+            long chrLength;
             long entryLength = entry.getEnd() - entry.getStart();
+            do {
+                randomChromosomeName(chrNames, cummsum, newChrName);
+                chrLength = GenomeInfo::chrInfo.at(newChrName);
+            } while (chrLength - entryLength < 1); // <---- this thing is very slow, think how to refactor.
+
+            //long chrLength = GenomeInfo::chrInfo.at(newChrName); // <---- this thing is very slow, think how to refactor.
+            //long entryLength = entry.getEnd() - entry.getStart();
 
             std::uniform_int_distribution<long int> chrDistribution(1, chrLength - entryLength);
 
