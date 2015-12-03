@@ -53,7 +53,7 @@ bool BedParser::parse() {
         if( str2int(end, splitted[2].c_str()) != STR2INT_SUCCESS) {
             return false;
         }
-        BedEntry entry(chr, start, end);
+        BedEntry entry(chr, start+1, end);
         parsed.add_entry(entry);
     }
     return true;
