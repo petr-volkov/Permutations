@@ -16,6 +16,11 @@ int main(int argc, char **argv) {
     long n;
     str2int(n, argv[4]);
 
+    std::ofstream outputFile;
+    outputFile.open(outputFilePath);
+
+    outputFile << "File 1: " << file1 << std::endl;
+    outputFile << "File 2: " << file2 << std::endl;
     std::cout << "File 1: " << file1 << std::endl;
     std::cout << "File 2: " << file2 << std::endl;
 
@@ -24,12 +29,15 @@ int main(int argc, char **argv) {
     Bed bed1 = parser1.getParsedBed();
     Bed bed2 = parser2.getParsedBed();
 
+    outputFile << "Parsed first file: " << bed1.size() << " entries\n";
+    outputFile << "Parsed second file: " << bed2.size() << " entries\n";
     std::cout << "Parsed first file: " << bed1.size() << " entries\n";
     std::cout << "Parsed second file: " << bed2.size() << " entries\n";
 
     bed1.sort();
     bed2.sort();
     bedIntersect intersectToTest = bed1.intersect(bed2);
+    outputFile << "Length of original intersect is " << intersectToTest.size() << std::endl;
     std::cout << "Length of original intersect is " << intersectToTest.size() << std::endl;
 
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -46,17 +54,15 @@ int main(int argc, char **argv) {
         bedIntersect intersect = bed1.intersect(newbed);
 
         if(intersect.size() < 0) {
-            std::cout << "Some weird stuff!" << std::endl;
+            outputFile << "Some weird stuff!" << std::endl;
         }
         result[i] = intersect.size();
     }
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+    outputFile << "Time taken to run 1000 iterations: " << duration / 1000. << " seconds" << std::endl;
     std::cout << "Time taken to run 1000 iterations: " << duration / 1000. << " seconds" << std::endl;
-
-    std::ofstream outputFile;
-    outputFile.open(outputFilePath);
 
     for(int i = 0; i < n; i++) {
         outputFile << result[i] << std::endl;
