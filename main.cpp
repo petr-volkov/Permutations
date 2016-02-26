@@ -1,3 +1,10 @@
+//
+// On MS Windows, this project compiles only under cygwin (due to posix threads usage).
+// In means that compiler should be set to Cygwin and PATH variable should point to cygwin root.
+//
+
+
+
 #include <iostream>
 #include <fstream>
 #include <random>

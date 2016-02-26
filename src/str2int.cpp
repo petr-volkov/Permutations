@@ -2,6 +2,7 @@
 // Created by petr_v on 30/11/2015.
 //
 
+
 #include "str2int.h"
 #include <sys/errno.h>
 #include <stdlib.h>
