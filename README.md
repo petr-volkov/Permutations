@@ -1,12 +1,5 @@
 # Permutations
 
-This is a small C++ program designed to calculate null 
+This program is designed to build a null 
 distribution of itersects of 2 'bed'-type files by randomly permuting genomic locations of one of the files.
-
-### Compiling ###
-
-### Testing ###
-
-### Usage ###
-
-### Plans ###
+Chromosome sizes and some potential statistical irregularities are taken into account.
